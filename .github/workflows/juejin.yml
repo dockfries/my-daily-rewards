@@ -1,0 +1,26 @@
+name: juejin
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+env:
+  COOKIE: ${{ secrets.JUEJIN_COOKIE }}
+  PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+
+jobs:
+  signin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+      - name: Download
+        shell: bash
+        run: |
+          curl https://codeload.github.com/iDerekLi/juejin-helper/tar.gz/main | tar -xz --strip=2 juejin-helper-main/workflows
+      - name: Run
+        shell: bash
+        run: |
+          yarn
+          yarn checkin
